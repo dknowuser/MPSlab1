@@ -1,0 +1,45 @@
+LAB1-3                                                                                                        PAGE 1
+
+                       1    $MOD52                          
+                       2    
+  00D3                 3    REG_BANK_L BIT PSW + 3
+                       4    
+----                   5    CSEG
+0000                   6    ORG 00h
+                       7            ;Переключаемся на первый регистровый банк
+0000 D2D3              8            setb REG_BANK_L
+0002 7818              9            mov R0, #18h
+                      10            
+0004 A683             11            mov @R0, DPH
+0006 08               12            inc R0
+                      13            
+0007 A682             14            mov @R0, DPL
+0009 08               15            inc R0
+                      16            
+000A A68C             17            mov @R0, TH0
+000C 08               18            inc R0
+                      19            
+000D A68A             20            mov @R0, TL0
+000F 08               21            inc R0
+                      22            
+0010 A68D             23            mov @R0, TH1
+0012 08               24            inc R0
+                      25            
+0013 A68B             26            mov @R0, TL1    
+0015                  27    lp:
+0015 80FE             28            jmp lp
+                      29    
+                      30    END
+
+VERSION 1.2h ASSEMBLY COMPLETE, 0 ERRORS FOUND
+LAB1-3                                                                                                        PAGE 2
+
+DPH. . . . . . . . . . . . . . .  D ADDR  0083H  PREDEFINED  
+DPL. . . . . . . . . . . . . . .  D ADDR  0082H  PREDEFINED  
+LP . . . . . . . . . . . . . . .  C ADDR  0015H  
+PSW. . . . . . . . . . . . . . .  D ADDR  00D0H  PREDEFINED  
+REG_BANK_L . . . . . . . . . . .  B ADDR  00D3H  
+TH0. . . . . . . . . . . . . . .  D ADDR  008CH  PREDEFINED  
+TH1. . . . . . . . . . . . . . .  D ADDR  008DH  PREDEFINED  
+TL0. . . . . . . . . . . . . . .  D ADDR  008AH  PREDEFINED  
+TL1. . . . . . . . . . . . . . .  D ADDR  008BH  PREDEFINED  

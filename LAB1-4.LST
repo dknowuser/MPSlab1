@@ -1,0 +1,81 @@
+LAB1-4                                                                                                        PAGE 1
+
+                       1    $MOD52                          
+                       2    
+                       3    ;QMAX EQU 2Ah
+                       4    ;QMIN EQU 2Bh
+                       5    
+  00D7                 6    CARRY BIT PSW + 7
+  0090                 7    L BIT P1 + 0
+  0091                 8    H BIT P1 + 1
+                       9    
+----                  10    CSEG
+0000                  11    ORG 00h
+                      12            ; Каждое хранимое значение в памяти делим на ч�
+                                                                               �сло значений,
+0000 7A00             13            mov R2, #00h; а потом суммируем в регистре R2
+0002 7820             14            mov R0, #20h               
+                      15            
+0004                  16    sum:
+0004 75F00A           17            mov B, #0Ah
+0007 E6               18            mov A, @R0
+0008 84               19            div AB
+0009 2A               20            add A, R2
+000A FA               21            mov R2, A       
+000B 08               22            inc R0
+000C B82AF5           23            cjne R0, #2Ah, sum
+                      24            
+                      25            ;В зависимости от значения R2 формируем призна�
+                                                                               � и выводим его на лини�
+                                                                               � порта P1
+000F EA               26            mov A, R2
+                      27            ;mov R1, QMAX
+0010 C2D7             28            clr CARRY
+0012 96               29            subb A, @R0
+0013 08               30            inc R0
+0014 600D             31            jz above_Qmax
+0016 500B             32            jnc above_Qmax
+                      33            
+0018 EA               34            mov A, R2
+                      35            ;mov R1, QMIN
+0019 C2D7             36            clr CARRY
+001B 96               37            subb A, @R0
+001C 6013             38            jz below_Qmin
+001E 4011             39            jc below_Qmin
+0020 02002A           40            jmp between
+                      41            
+0023                  42    above_Qmax:
+0023 D290             43            setb L
+0025 D291             44            setb H
+0027 020035           45            jmp lp
+                      46            
+002A                  47    between:
+002A C290             48            clr L
+002C D291             49            setb H
+002E 020035           50            jmp lp
+                      51            
+0031                  52    below_Qmin:
+0031 C290             53            clr L
+0033 C291             54            clr H
+                      55            
+LAB1-4                                                                                                        PAGE 2
+
+0035                  56    lp:
+0035 80FE             57            jmp lp
+                      58    
+                      59    END
+
+VERSION 1.2h ASSEMBLY COMPLETE, 0 ERRORS FOUND
+LAB1-4                                                                                                        PAGE 3
+
+ABOVE_QMAX . . . . . . . . . . .  C ADDR  0023H  
+B. . . . . . . . . . . . . . . .  D ADDR  00F0H  PREDEFINED  
+BELOW_QMIN . . . . . . . . . . .  C ADDR  0031H  
+BETWEEN. . . . . . . . . . . . .  C ADDR  002AH  
+CARRY. . . . . . . . . . . . . .  B ADDR  00D7H  
+H. . . . . . . . . . . . . . . .  B ADDR  0091H  
+L. . . . . . . . . . . . . . . .  B ADDR  0090H  
+LP . . . . . . . . . . . . . . .  C ADDR  0035H  
+P1 . . . . . . . . . . . . . . .  D ADDR  0090H  PREDEFINED  
+PSW. . . . . . . . . . . . . . .  D ADDR  00D0H  PREDEFINED  
+SUM. . . . . . . . . . . . . . .  C ADDR  0004H  
